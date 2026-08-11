@@ -462,7 +462,8 @@ def _display_width(value: Any) -> int:
     return sum(2 if ord(ch) > 0x1100 else 1 for ch in text)
 
 
-def _write_sheet(ws, columns: Sequence[str], rows: Sequence[Dict[str, Any]], number_format: str = "#,##0.0") -> None:
+def _write_sheet(ws, columns: Sequence[str], rows: Sequence[Dict[str, Any]]) -> None:
+    """숫자는 서식 없이('일반') 넣는다. 자릿점·소수 자릿수는 쓰는 사람이 정하게 둔다."""
     ws.append(list(columns))
     for cell in ws[1]:
         cell.fill = HEADER_FILL
@@ -477,12 +478,11 @@ def _write_sheet(ws, columns: Sequence[str], rows: Sequence[Dict[str, Any]], num
     numeric_flags = [_is_numeric_column(c) or c in ("건수", "페이지") for c in columns]
 
     for r in range(2, ws.max_row + 1):
-        for c, column in enumerate(columns, start=1):
+        for c in range(1, len(columns) + 1):
             cell = ws.cell(row=r, column=c)
             cell.font = BODY_FONT
             cell.border = BORDER
             if numeric_flags[c - 1] and isinstance(cell.value, (int, float)):
-                cell.number_format = number_format if _is_numeric_column(column) else "#,##0"
                 cell.alignment = Alignment(horizontal="right", vertical="center")
             else:
                 cell.alignment = Alignment(vertical="center", wrap_text=False)

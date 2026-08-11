@@ -711,8 +711,8 @@ var XLSX={};function make_xlsx_lib(a){a.version="0.18.5",a.style_version="1.2.0"
         var cell = ws[ref];
         if (!cell) { ws[ref] = { t: 's', v: '', s: bodyStyle(false) }; cell = ws[ref]; }
         if (r === 0) { cell.s = HEADER_STYLE; continue; }
+        // 숫자는 서식 없이('일반') 둔다. 자릿점·소수 자릿수는 쓰는 사람이 정하게 한다.
         cell.s = bodyStyle(numeric && typeof cell.v === 'number');
-        if (typeof cell.v === 'number' && LandSchedule.isNumericColumn(columns[c])) cell.z = '#,##0.0';
         widths[c] = Math.max(widths[c], Math.min(displayWidth(cell.v), 84));
       }
     }
