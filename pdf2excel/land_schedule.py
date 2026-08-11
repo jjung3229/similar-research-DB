@@ -45,16 +45,36 @@ except ImportError:  # pragma: no cover
 # ---------------------------------------------------------------------------
 
 #: 번호 열에 들어오면 자료 행이 아니라 합계 행으로 본다.
-SUBTOTAL_LABELS = ("소계", "소 계", "합계", "합 계", "총계", "총 계", "계")
+SUBTOTAL_LABELS = ("소계", "합계", "총계", "계")
 
-#: 머리글이 이 낱말들을 담고 있으면 토지세목조서 표로 판단한다.
-REQUIRED_HEADER_WORDS = ("번호", "지번")
+#: 첫 열(항목 번호) 머리글로 쓰이는 말들. 고시문마다 표기가 다르다.
+KEY_HEADERS = ("번호", "연번", "순번", "일련번호")
+
+#: 항목마다 반드시 값이 있는 열. 한 항목의 시작을 알아보는 기준이 된다.
+ANCHOR_HEADERS = ("지번",)
 
 #: 줄바꿈을 공백 없이 이어붙일 열(사람·법인 이름처럼 한 낱말이 접힌 경우).
 GLUE_WITHOUT_SPACE = ("성명", "지목", "지번", "권리")
 
 #: 숫자로 바꿔 쓸 열.
 NUMERIC_HINTS = ("면적", "지적", "㎡", "m2")
+
+#: 두 줄짜리 머리글의 아래 칸에 오는 말들.
+SUB_HEADERS = ("시군읍면동리", "성명", "주소", "권리의종류", "소재지", "지번")
+
+
+def _squash(text: str) -> str:
+    """머리글 비교용: 공백을 모두 없앤다.
+
+    고시문에 따라 '번 호', '지 번', '소 유 자'처럼 글자 사이를 띄우는 양식이 있어서
+    머리글은 붙여 쓴 형태로 맞춰 본다.
+    """
+    return re.sub(r"\s+", "", text)
+
+
+def _has_any(text: str, words: Sequence[str]) -> bool:
+    squashed = _squash(text)
+    return any(word in squashed for word in words)
 
 
 def _norm(text: Optional[str]) -> str:
@@ -90,7 +110,7 @@ def _header_span(rows: Sequence[Sequence[Optional[str]]]) -> int:
     if len(rows) > 1:
         second = [_norm(c) for c in rows[1]]
         # 두 번째 줄이 '시군읍면동리 / 성명 / 주소' 같은 하위 머리글이면 머리글에 포함
-        if any(v in ("시군읍면동리", "성명", "주소", "권리의 종류", "권리의종류") for v in second):
+        if any(_squash(v) in SUB_HEADERS for v in second):
             span = 2
     return span
 
@@ -107,7 +127,7 @@ def _build_layout(rows: Sequence[Sequence[Optional[str]]]) -> Optional[TableLayo
         r.extend([""] * (width - len(r)))
 
     top_flat = " ".join(head[0])
-    if not all(word in top_flat for word in REQUIRED_HEADER_WORDS):
+    if not (_has_any(top_flat, KEY_HEADERS) and _has_any(top_flat, ANCHOR_HEADERS)):
         return None
 
     # '소 유 자'처럼 두 칸을 아우르는 머리글은 병합 셀이라 오른쪽 칸이 비어 있다.
@@ -152,11 +172,11 @@ def _build_layout(rows: Sequence[Sequence[Optional[str]]]) -> Optional[TableLayo
             seen[name] = 1
 
     try:
-        key_col = next(i for i, c in enumerate(columns) if c.startswith("번호"))
+        key_col = next(i for i, c in enumerate(columns) if _has_any(c, KEY_HEADERS))
     except StopIteration:
         return None
 
-    anchor_col = next((i for i, c in enumerate(columns) if c.startswith("지번")), None)
+    anchor_col = next((i for i, c in enumerate(columns) if _has_any(c, ANCHOR_HEADERS)), None)
 
     return TableLayout(
         columns=columns,
@@ -213,11 +233,11 @@ TABLE_SETTINGS = {
 
 
 def _glue_for(column: str) -> str:
-    return "" if any(k in column for k in GLUE_WITHOUT_SPACE) else " "
+    return "" if _has_any(column, GLUE_WITHOUT_SPACE) else " "
 
 
 def _is_numeric_column(column: str) -> bool:
-    return any(k in column for k in NUMERIC_HINTS)
+    return _has_any(column, NUMERIC_HINTS)
 
 
 def _to_number(value: str) -> Any:
@@ -260,7 +280,7 @@ def _merge_rows(
         current = None
         current_is_subtotal = False
 
-    subtotal_keys = [s.replace(" ", "") for s in SUBTOTAL_LABELS]
+    subtotal_keys = set(SUBTOTAL_LABELS)
     anchor_col = layout.anchor_col
 
     for raw in body:
@@ -268,7 +288,7 @@ def _merge_rows(
         for idx in layout.col_index:
             cells.append(_norm(raw[idx]) if idx < len(raw) else "")
 
-        key = cells[layout.key_col].replace(" ", "")
+        key = _squash(cells[layout.key_col])
         anchor = cells[anchor_col] if anchor_col is not None else ""
         is_subtotal = key in subtotal_keys
 
@@ -369,7 +389,7 @@ def _numeric_columns(columns: Sequence[str]) -> List[str]:
 
 def _group_column(columns: Sequence[str]) -> Optional[str]:
     for c in columns:
-        if "소재지" in c or "시군" in c:
+        if _has_any(c, ("소재지", "시군")):
             return c
     return None
 
@@ -515,7 +535,7 @@ def to_excel(result: ExtractResult, out_path: str, source_name: str = "") -> Dic
 
     # 요약: 지목별 건수·면적
     num_cols = _numeric_columns(result.columns)
-    jimok_col = next((c for c in result.columns if "지목" in c), None)
+    jimok_col = next((c for c in result.columns if _has_any(c, ("지목",))), None)
     summary_rows: List[Dict[str, Any]] = []
     if jimok_col:
         buckets: Dict[str, Dict[str, Any]] = {}

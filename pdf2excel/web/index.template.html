@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>토지세목조서 PDF → 엑셀 변환기</title>
+<style>
+  :root { color-scheme: light dark; --bg:#f5f6f8; --fg:#1b1f23; --muted:#6b7280; --line:#9aa4b2; --accent:#1f6feb; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#16181d; --fg:#e8eaed; --muted:#9aa1ac; } }
+  * { box-sizing: border-box; }
+  body { margin:0; padding:40px 20px 60px; background:var(--bg); color:var(--fg);
+         font-family:-apple-system,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif; }
+  .wrap { max-width:760px; margin:0 auto; }
+  h1 { font-size:22px; margin:0 0 6px; }
+  p.sub { margin:0 0 24px; color:var(--muted); font-size:14px; line-height:1.7; }
+  #drop { display:block; border:2px dashed var(--line); border-radius:14px; padding:54px 20px;
+          text-align:center; background:rgba(127,127,127,.05); cursor:pointer; transition:.15s; }
+  #drop.hot { border-color:var(--accent); background:rgba(31,111,235,.10); }
+  #drop strong { display:block; font-size:17px; margin-bottom:6px; }
+  #drop span { color:var(--muted); font-size:13px; }
+  input[type=file] { display:none; }
+  .card { margin-top:18px; padding:16px 18px; border-radius:12px; background:rgba(127,127,127,.08);
+          font-size:14px; line-height:1.8; }
+  .card h3 { margin:0 0 8px; font-size:15px; word-break:break-all; }
+  .ok { color:#1a7f37; } .warn { color:#b26a00; } .err { color:#c0392b; } .muted { color:var(--muted); }
+  ul { margin:6px 0 0; padding-left:18px; } li { margin:2px 0; }
+  button.dl { margin-top:10px; padding:9px 16px; border:0; border-radius:8px; background:var(--accent);
+              color:#fff; font-size:14px; font-family:inherit; cursor:pointer; }
+  button.dl:hover { filter:brightness(1.08); }
+  footer { margin-top:28px; color:var(--muted); font-size:12.5px; line-height:1.8; }
+  footer b { color:var(--fg); font-weight:600; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>수용할 또는 사용할 토지세목조서 → 엑셀</h1>
+  <p class="sub">도로구역 결정 고시문 PDF를 아래 상자에 끌어다 놓으면 토지세목조서 표를 찾아 엑셀로 바꿔 줍니다.
+     설치할 것도, 인터넷 연결도 필요 없습니다. 파일은 이 컴퓨터 안에서만 처리되며 어디로도 전송되지 않습니다.</p>
+
+  <label id="drop" for="file">
+    <strong>PDF를 여기에 끌어다 놓으세요</strong>
+    <span>또는 눌러서 파일 선택 (여러 개 가능)</span>
+    <input id="file" type="file" accept="application/pdf,.pdf" multiple>
+  </label>
+
+  <div id="out"></div>
+
+  <footer>
+    <b>만들어지는 엑셀</b> — 토지세목조서(본표) / 소계 / 검증 / 지목별 요약, 4개 시트.
+    면적은 숫자로 들어가므로 바로 합계·정렬·피벗을 쓸 수 있습니다.<br>
+    <b>검증 시트</b> — 구간마다 직접 합산한 값과 고시문에 인쇄된 소계를 비교합니다.
+    차이가 0이면 그 구간은 한 건도 빠지지 않은 것입니다.<br>
+    <b>안 되는 경우</b> — 스캔한 이미지 PDF(글자를 드래그할 수 없는 PDF)는 먼저 OCR이 필요합니다.
+  </footer>
+</div>
+
+<!--PDFJS-->
+<!--XLSX-->
+<!--CORE-->
+<!--EXCEL-->
+<!--WORKER-->
+<!--APP-->
+</body>
+</html>

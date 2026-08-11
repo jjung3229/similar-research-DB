@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "pdfjs-dist": "^2.16.105",
+    "xlsx-js-style": "^1.2.0"
+  },
+  "name": "land-schedule-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "토지세목조서 PDF → 엑셀 변환기 (단독 실행 HTML)",
+  "scripts": {
+    "build": "python3 build.py",
+    "compare": "node tools/compare.js",
+    "browser-test": "node tools/browser-test.js"
+  }
+}
