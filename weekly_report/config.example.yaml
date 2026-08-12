@@ -1,0 +1,79 @@
+# weekly_report 설정 예시
+# 이 파일을 같은 폴더에 config.yaml 로 복사한 뒤 내 환경에 맞게 고치세요.
+# PyYAML 설치가 어려우면 같은 내용을 config.json 으로 저장해도 됩니다.
+
+data_dir: "~/weekly_report_data"      # 수집 원본이 저장되는 곳 (로컬에만 남습니다)
+
+user:
+  name: "홍길동"
+  team: "미래기술연구원 AX팀"
+  email: "hong@example.com"           # git 커밋 author 필터에 사용
+
+activity:
+  sample_seconds: 15                  # 몇 초마다 활성 창을 확인할지
+  idle_threshold_seconds: 180         # 3분간 입력이 없으면 자리비움으로 보고 시간 중단
+  min_session_seconds: 60             # 1분 미만 스쳐간 창은 버림
+  ignore_titles:                      # 이 단어가 창 제목에 있으면 아예 기록하지 않음
+    - "카카오톡"
+    - "은행"
+    - "네이버 메일"
+
+outlook:
+  enabled: true
+  include_sent: true                  # 보낸 메일 (실적 근거로 가장 유용)
+  include_received: true
+  include_calendar: true              # 회의 일정
+  max_body_chars: 700                 # 본문은 앞부분만
+  received_from_domains: []           # 받은메일이 너무 많으면 도메인으로 제한
+
+git:
+  enabled: true
+  repo_roots:
+    - "C:/work/repos"
+  max_depth: 3
+
+files:
+  enabled: true
+  watch_dirs:                         # 공유 드라이브 전체를 넣지 마세요 (느립니다)
+    - "C:/Users/사용자명/Documents"
+    - "Z:/부서공유/AX팀"
+  max_depth: 6
+  max_files: 200
+
+redact:
+  enabled: true
+  drop_keywords:                      # 이 단어가 든 기록은 통째로 제외 (대외비)
+    - "대외비"
+    - "인사평가"
+  extra_patterns: []                  # 추가로 가릴 정규식
+
+# 활동을 과제로 묶는 규칙. 위에서부터 먼저 걸리는 것으로 분류합니다.
+# 처음에는 비워두고 보고서의 "분류되지 않은 활동"을 보며 채워 나가는 것이 빠릅니다.
+projects:
+  - name: "AX/DX 추진 로드맵"
+    match: ["axdx", "ax/dx", "로드맵", "ontology", "온톨로지"]
+  - name: "설계 시뮬레이션 ROM"
+    match: ["rom", "surrogate", "시뮬레이션", "대리모델"]
+  - name: "부서 운영"
+    match: ["주간보고", "예산", "회의록", "품의"]
+
+llm:
+  enabled: false                      # 사내 LLM 주소를 확인한 뒤 true 로 바꾸세요
+  api_style: "openai"                 # openai (대부분) | custom (사내 자체 규격)
+  base_url: "http://사내LLM주소/v1"
+  model: "사내모델명"
+  api_key_env: "INHOUSE_LLM_API_KEY"  # 키가 필요 없으면 빈 문자열
+  timeout_seconds: 120
+  bypass_proxy: true                  # 사내 주소는 프록시를 타지 않도록
+  verify_ssl: true
+  max_tokens: 4000
+  # api_style: custom 일 때만 사용. {{PROMPT}} 자리에 프롬프트가 들어갑니다.
+  # request_template:
+  #   prompt: "{{SYSTEM}}\n\n{{PROMPT}}"
+  #   max_new_tokens: 4000
+  # response_path: "result.text"
+
+report:
+  out_dir: "report"                   # data_dir 기준 상대 경로
+  template: ""                        # 비우면 templates/weekly_ko.md 사용
+  extra_instructions: ""              # 예: "실적은 5개 이내로 요약할 것"

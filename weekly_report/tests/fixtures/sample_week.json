@@ -1,0 +1,31 @@
+{
+  "_comment": "테스트용 가상 한 주 (2026-08-10 월 ~ 2026-08-16 일). 실제 수집 형식과 동일하다.",
+  "activity": [
+    {"start": "2026-08-10T09:12:00", "end": "2026-08-10T10:48:00", "seconds": 5760, "app": "POWERPNT", "title": "AXDX_로드맵_v3.pptx - PowerPoint"},
+    {"start": "2026-08-10T10:50:00", "end": "2026-08-10T11:05:00", "seconds": 900, "app": "OUTLOOK", "title": "RE: ROM 검증 결과 회신 - 메시지(HTML)"},
+    {"start": "2026-08-10T13:30:00", "end": "2026-08-10T15:10:00", "seconds": 6000, "app": "Code", "title": "ontology_axdx.py - similar-research-DB - Visual Studio Code"},
+    {"start": "2026-08-11T09:30:00", "end": "2026-08-11T11:00:00", "seconds": 5400, "app": "POWERPNT", "title": "AXDX_로드맵_v3.pptx - PowerPoint"},
+    {"start": "2026-08-11T14:00:00", "end": "2026-08-11T14:50:00", "seconds": 3000, "app": "EXCEL", "title": "2026_예산계획.xlsx - Excel"},
+    {"start": "2026-08-12T10:00:00", "end": "2026-08-12T10:40:00", "seconds": 2400, "app": "chrome", "title": "결재함 - 사내포털"},
+    {"start": "2026-08-12T15:00:00", "end": "2026-08-12T15:30:00", "seconds": 1800, "app": "POWERPNT", "title": "시뮬레이션_ROM_검증계획.pptx - PowerPoint"},
+    {"start": "2026-08-13T09:00:00", "end": "2026-08-13T11:30:00", "seconds": 9000, "app": "POWERPNT", "title": "AXDX_로드맵_v3.pptx - PowerPoint"},
+    {"start": "2026-08-13T13:00:00", "end": "2026-08-13T13:02:00", "seconds": 30, "app": "explorer", "title": "다운로드"}
+  ],
+  "files": [
+    {"kind": "file", "time": "2026-08-13T11:20:00", "name": "AXDX_로드맵_v3.pptx", "stem": "AXDX_로드맵_v3", "ext": ".pptx", "dir": "C:/Users/hong/Documents/AX", "size": 4820000},
+    {"kind": "file", "time": "2026-08-11T14:45:00", "name": "2026_예산계획.xlsx", "stem": "2026_예산계획", "ext": ".xlsx", "dir": "C:/Users/hong/Documents", "size": 182000},
+    {"kind": "file", "time": "2026-08-10T15:05:00", "name": "ontology_axdx.py", "stem": "ontology_axdx", "ext": ".py", "dir": "C:/work/repos/similar-research-DB", "size": 9003},
+    {"kind": "file", "time": "2026-08-14T17:40:00", "name": "주간회의록_0814.docx", "stem": "주간회의록_0814", "ext": ".docx", "dir": "C:/Users/hong/Documents/회의", "size": 32000}
+  ],
+  "mail": [
+    {"kind": "mail", "direction": "sent", "time": "2026-08-14T16:20:00", "subject": "[검토요청] AX/DX 추진 로드맵 v3", "counterpart": "김상무;박팀장", "counterpart_domain": "example.com", "conversation": "AX/DX 추진 로드맵", "categories": "", "snippet": "첨부와 같이 로드맵 v3 초안을 송부드립니다. 4대 전략 중 3전략 세부 과제를 보완하였습니다."},
+    {"kind": "mail", "direction": "sent", "time": "2026-08-12T17:05:00", "subject": "ROM 검증 계획 공유", "counterpart": "이책임", "counterpart_domain": "example.com", "conversation": "ROM 검증", "categories": "", "snippet": "시뮬레이션 대리모델 검증 계획 초안입니다."},
+    {"kind": "mail", "direction": "received", "time": "2026-08-10T08:40:00", "subject": "RE: ROM 검증 결과 회신", "counterpart": "이책임", "counterpart_domain": "example.com", "conversation": "ROM 검증", "categories": "", "snippet": "검증 결과 회신드립니다."},
+    {"kind": "meeting", "time": "2026-08-12T14:00:00", "end": "2026-08-12T15:00:00", "seconds": 3600, "subject": "ROM 개발 진도 점검 회의", "organizer": "박팀장", "location": "본관 3층 회의실", "required": "박팀장;이책임;홍길동"},
+    {"kind": "meeting", "time": "2026-08-14T10:00:00", "end": "2026-08-14T11:00:00", "seconds": 3600, "subject": "부서 주간회의", "organizer": "박팀장", "location": "Teams", "required": "팀 전체"}
+  ],
+  "git": [
+    {"kind": "commit", "time": "2026-08-10T15:04:00", "repo": "similar-research-DB", "sha": "e9856c7d", "author": "hong", "subject": "4전략 연계 관계도 추가 — 관계 중심 재구성", "files": ["linkage_axdx.py", "linkage_axdx.png"], "files_changed": 2, "added": 187, "removed": 12},
+    {"kind": "commit", "time": "2026-08-13T18:22:00", "repo": "similar-research-DB", "sha": "8b3cb914", "author": "hong", "subject": "직관형 다이어그램 추가 (fan-in/out)", "files": ["fan_axdx.py"], "files_changed": 1, "added": 96, "removed": 3}
+  ]
+}

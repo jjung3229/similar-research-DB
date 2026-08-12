@@ -1,0 +1,7 @@
+# 주간보고 도구 — 수집 원본과 생성물은 커밋하지 않는다
+weekly_report/config.yaml
+weekly_report/config.yml
+weekly_report/config.json
+weekly_report_data/
+*.pyc
+__pycache__/

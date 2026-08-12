@@ -1,0 +1,11 @@
+{
+  "data_dir": "~/.weekly_report_test",
+  "user": {"name": "홍길동", "team": "미래기술연구원 AX팀", "email": "hong@example.com"},
+  "projects": [
+    {"name": "AX/DX 추진 로드맵", "match": ["axdx", "ax/dx", "로드맵", "ontology", "온톨로지", "다이어그램", "similar-research-db"]},
+    {"name": "설계 시뮬레이션 ROM", "match": ["rom", "surrogate", "시뮬레이션", "대리모델"]},
+    {"name": "부서 운영", "match": ["주간회의", "주간보고", "예산", "결재", "회의록"]}
+  ],
+  "redact": {"enabled": true, "drop_keywords": ["인사평가"]},
+  "llm": {"enabled": false}
+}
